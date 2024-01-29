@@ -88,14 +88,19 @@ run_fbgemm_gpu_tests () {
   )
 
   if [ "$fbgemm_variant" == "cpu" ]; then
-    # These are tests that are currently broken in FBGEMM_GPU-CPU
+    # These tests have non-CPU operators referenced in @given
     local ignored_tests=(
-      ./uvm_test.py
+      ./uvm/copy_test.py
+      ./uvm/uvm_test.py
     )
   elif [ "$fbgemm_variant" == "rocm" ]; then
     local ignored_tests=(
       # https://github.com/pytorch/FBGEMM/issues/1559
       ./batched_unary_embeddings_test.py
+      ./tbe/backward_adagrad_test.py
+      ./tbe/backward_dense_test.py
+      ./tbe/backward_none_test.py
+      ./tbe/backward_sgd_test.py
     )
   else
     local ignored_tests=()
